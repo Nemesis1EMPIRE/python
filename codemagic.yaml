@@ -1,0 +1,19 @@
+workflows:
+  kivy-android:
+    name: Build Kivy Android App
+    environment:
+      vars:
+        BUILD_DIR: $CM_BUILD_DIR
+    scripts:
+      - name: Installer les dépendances Python
+        script: |
+          sudo apt update
+          sudo apt install -y python3-pip python3-setuptools python3-venv
+          pip install --upgrade pip
+          pip install --user --upgrade buildozer cython virtualenv
+      - name: Construire l'APK avec Buildozer
+        script: |
+          export PATH=$HOME/.local/bin:$PATH
+          buildozer android debug
+    artifacts:
+      - build/*.apk
