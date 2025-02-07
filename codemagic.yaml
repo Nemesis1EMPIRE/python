@@ -5,24 +5,36 @@ workflows:
     environment:
       vars:
         PYTHON_VERSION: "3.10.12"
+      flutter: stable
+      android: latest
 
     scripts:
       - name: Installer les dépendances
         script: |
           sudo apt update
-          sudo apt install -y python3 python3-pip
+          sudo apt install -y python3 python3-pip python3-venv
           pip install --upgrade pip
           pyenv global $PYTHON_VERSION
           python -m ensurepip
           pip install setuptools
           python --version
           pip install buildozer cython virtualenv
+
+      - name: Accepter les licences Android SDK
+        script: |
+          yes | sdkmanager --licenses
+          sdkmanager "build-tools;34.0.0" "platforms;android-34"
+
       - name: Préparer l’environnement
         script: |
           python3 -m venv venv
           source venv/bin/activate
+          pip install --upgrade buildozer
+
       - name: Compiler l’APK
         script: |
+          source venv/bin/activate
           buildozer android debug
+
     artifacts:
       - build/*.apk
