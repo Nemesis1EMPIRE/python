@@ -21,28 +21,37 @@ workflows:
 
       - name: Installer Android SDK
         script: |
-          # Créer un répertoire pour installer le SDK Android
+          # Créer un répertoire pour le SDK Android
           mkdir -p $HOME/Android
 
-          # Télécharger et extraire le SDK Android Command-Line Tools
+          # Télécharger le SDK Android Command-Line Tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip -P $HOME/Android
           unzip $HOME/Android/commandlinetools-linux-7302050_latest.zip -d $HOME/Android/cmdline-tools
-          
-          # Définir les variables d'environnement
+
+          # Vérifier si le SDK a été correctement installé
+          ls $HOME/Android/cmdline-tools
+
+          # Mettre à jour les variables d'environnement
           export ANDROID_HOME=$HOME/Android
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           
-          # Ajouter au PATH dans bashrc
+          # Ajouter au PATH dans le fichier .bashrc
           echo "export ANDROID_HOME=$ANDROID_HOME" >> ~/.bashrc
           echo "export PATH=$PATH" >> ~/.bashrc
-          
-          # Recharger bashrc
+
+          # Recharger le fichier bashrc
           source ~/.bashrc
+
+          # Vérifier que sdkmanager est maintenant accessible
+          sdkmanager --version
 
       - name: Accepter les licences Android SDK
         script: |
-          # Assurer que le sdkmanager est dans le PATH
-          sdkmanager --version
+          # Vérifier si sdkmanager est bien installé
+          if ! command -v sdkmanager &>/dev/null; then
+            echo "sdkmanager command not found!"
+            exit 1
+          fi
           
           # Accepter les licences
           yes | sdkmanager --licenses
