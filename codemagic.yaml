@@ -35,14 +35,8 @@ workflows:
           export ANDROID_HOME=$HOME/Android
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           
-          # Ajouter au PATH dans le fichier .bashrc
-          echo "export ANDROID_HOME=$ANDROID_HOME" >> ~/.bashrc
-          echo "export PATH=$PATH" >> ~/.bashrc
-
-          # Recharger le fichier bashrc
-          source ~/.bashrc
-
           # Vérifier que sdkmanager est maintenant accessible
+          echo $PATH
           sdkmanager --version
 
       - name: Accepter les licences Android SDK
