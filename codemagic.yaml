@@ -4,26 +4,34 @@ workflows:
     environment:
       vars:
         BUILD_DIR: $CM_BUILD_DIR
+        PYTHON_VERSION: 3.10  # Utilisation de Python 3.10
     scripts:
       - name: Installer les dépendances Python
         script: |
+          # Mettre à jour les dépôts et installer les dépendances nécessaires
           sudo apt update
           sudo apt install -y python3-pip python3-setuptools python3-venv python3-distutils
+          
+          # Créer un environnement virtuel
           python3 -m venv venv
           source venv/bin/activate
+          
+          # Mettre à jour pip et installer les paquets nécessaires
           pip install --upgrade pip
-          pip install buildozer cython virtualenv
-          pip install python3-distutils
-          pip install --upgrade buildozer
+          pip install buildozer==1.4.0 cython virtualenv
+          pip install python3-distutils  # Installer distutils explicitement
+          
+          # Vérifier que buildozer fonctionne
           buildozer android debug
-          pip install buildozer==1.4.0
-          buildozer android debug
-
 
       - name: Construire l'APK avec Buildozer
         script: |
           export PATH=$HOME/.local/bin:$PATH
           source venv/bin/activate
+          
+          # Exécuter la commande de construction
           buildozer android debug
+          
     artifacts:
-      - build/*.apk
+      - build/*.apk  # Spécifier où les APK doivent être sauvegardés
+
