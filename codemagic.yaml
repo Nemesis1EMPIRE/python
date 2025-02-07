@@ -4,7 +4,7 @@ workflows:
     max_build_duration: 120
     environment:
       vars:
-        PYTHON_VERSION: "3.10"
+        PYTHON_VERSION: "3.10.12"
     scripts:
       - name: Installer les dépendances
         script: |
