@@ -4,6 +4,7 @@ workflows:
     environment:
       vars:
         BUILD_DIR: $CM_BUILD_DIR
+        python: "3.10"
     scripts:
       - name: Installer les dépendances Python
         script: |
