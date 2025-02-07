@@ -5,12 +5,17 @@ workflows:
     environment:
       vars:
         PYTHON_VERSION: "3.10.12"
+
     scripts:
       - name: Installer les dépendances
         script: |
           sudo apt update
           sudo apt install -y python3 python3-pip
           pip install --upgrade pip
+          pyenv global $PYTHON_VERSION
+          python -m ensurepip
+          pip install setuptools
+          python --version
           pip install buildozer cython virtualenv
       - name: Préparer l’environnement
         script: |
