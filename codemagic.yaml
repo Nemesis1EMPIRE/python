@@ -8,9 +8,10 @@ workflows:
       - name: Installer les dépendances Python
         script: |
           sudo apt update
-          sudo apt install -y python3-pip python3-setuptools python3-venv
+          sudo apt install -y python3-pip python3-setuptools python3-venv python3-distutils
           pip install --upgrade pip
           pip install --user --upgrade buildozer cython virtualenv
+
       - name: Construire l'APK avec Buildozer
         script: |
           export PATH=$HOME/.local/bin:$PATH
